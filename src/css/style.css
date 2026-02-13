@@ -83,6 +83,7 @@ DESCRIPTION: Main stylesheet containing layout, typography,
 :root {
   /* Color Palette: Neon Green & Black Theme */
   --primary-bg: hsl(240, 3%, 7%);
+  --secondary-bg: hsl(53, 100%, 97%);
   --accent-color: hsl(71, 100%, 50%); /* Used for links and borders */
 
   /* Spacing Scale: Maintains vertical rhythm */
@@ -92,17 +93,17 @@ DESCRIPTION: Main stylesheet containing layout, typography,
 
   /* ----- Typography ----- */
   /* --- Font families --- */
-  --font-sans:
-    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-oldschool-grotesk:
+    "oldschool-grotesk", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
 
   /* Type scale (1.25 ratio) */
-  --text-xs: 0.8rem;
-  --text-sm: 0.9rem;
+  --text-sm: 0.5rem;
   --text-base: 1rem;
-  --text-md: 1.25rem;
-  --text-lg: 1.563rem;
-  --text-xl: 1.953rem;
-  --text-xxl: 2.441rem;
+  --text-md: 1.5rem;
+  --text-lg: 2rem;
+  --text-xl: 2.5rem;
+  --text-xxl: 3rem;
 
   /* Line heights */
   --leading-tight: 1.2;
@@ -114,7 +115,7 @@ DESCRIPTION: Main stylesheet containing layout, typography,
   --text-white-primary: hsl(60, 24%, 94%);
   --text-white-secondary: hsla(60, 23%, 94%, 0.655);
   --text-black-primary: hsl(240, 3%, 7%);
-  --text-black-primary: hsla(240, 3%, 7%, 0.655);
+  --text-black-secondary: hsla(240, 3%, 7%, 0.655);
 }
 
 /* --- 2. Reset & Base Styles --- */
@@ -126,8 +127,12 @@ DESCRIPTION: Main stylesheet containing layout, typography,
 
 html,
 body {
-  height: 100vh;
+  height: 100%;
   width: 100%;
+  background: var(--secondary-bg);
+  font-family: var(--font-oldschool-grotesk);
+  font-weight: 400;
+  line-height: 1;
 }
 
 h1,
@@ -174,6 +179,11 @@ p {
   color: var(--text-secondary, #444);
 }
 
+ul,
+li {
+  list-style: none;
+}
+
 /* Custom Scrollar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -188,110 +198,12 @@ p {
 ::-webkit-scrollbar-thumb {
   background: var(--accent-color);
   border-radius: 4px;
-}
-
-/* remove later */
-div {
-  height: 100vw;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 2px;
 }
 
 /* --- 5. Components --- */
 
 /**
- * Social Media Navigation
- * Used in the "social-navbar" section.
+ * Header Navigation
+ * Used in the "header-navbar" section.
  */
-.navbar {
-  height: fit-content;
-  width: fit-content;
-  background-color: var(--black);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 25px;
-  padding: 5px;
-  border: 3px solid var(--neon-green);
-  color: var(--beige);
-  isolation: isolate;
-  transition: color;
-  /* This would make the after content relative to the navbar and not the body */
-  /* position: relative;  */
-
-  anchor-name: --hovered-link;
-
-  li:hover {
-    anchor-name: --hovered-link;
-    a > svg {
-      fill: var(--black);
-      transition: all 300ms;
-    }
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    background: var(--beige);
-    z-index: -1;
-    top: calc(anchor(bottom) - 10px);
-    left: calc(anchor(left) + 1.4rem);
-    right: calc(anchor(right) + 1.4rem);
-    bottom: calc(anchor(bottom) + 5px);
-
-    /* border-radius: 23px; */
-
-    position-anchor: --hovered-link;
-
-    transition: inset 500ms
-      linear(
-        0,
-        0.029 1.6%,
-        0.123 3.5%,
-        0.651 10.6%,
-        0.862 14.1%,
-        1.002 17.7%,
-        1.046 19.6%,
-        1.074 21.6%,
-        1.087 23.9%,
-        1.086 26.6%,
-        1.014 38.5%,
-        0.994 46.3%,
-        1
-      );
-  }
-
-  &:has(a:hover)::after {
-    top: calc(anchor(top));
-    left: calc(anchor(left));
-    right: calc(anchor(right));
-    bottom: calc(anchor(bottom));
-  }
-}
-
-@supports (corner-shape: squircle) {
-  .navbar,
-  .btn-inner {
-    corner-shape: squircle;
-  }
-
-  .navbar::after {
-    left: calc(anchor(left) + 1rem);
-    right: calc(anchor(right) + 1rem);
-    border-radius: 10px;
-  }
-}
-
-.navbar > ul {
-  display: flex;
-  align-items: center;
-}
-
-a {
-  display: block;
-  padding: 1rem;
-  text-decoration: none;
-  color: var(--beige);
-}
