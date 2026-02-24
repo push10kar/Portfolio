@@ -10,11 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuContent = document.querySelector(".menu-content");
   const menuLogo = document.querySelector(".menu-logo");
   const menuLinksWrapper = document.querySelector(".menu-links-wrapper");
+  const menuLinkContainer = document.querySelectorAll(".menu-link");
   const linkHighlighter = document.querySelector(".link-highlighter");
 
   let currentX = 0;
   let targetX = 0;
-  const lerpFactor = 0.05;
+  const lerpFactor = 0.1;
 
   let currentHighlighterX = 0;
   let targetHighlighterX = 0;
@@ -48,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (defaultLinkText) {
     const linkWidth = defaultLinkText.offsetWidth;
-    linkHighlighter.style.width = linkWidth + "px";
+    // linkHighlighter.style.width = linkWidth + "px";
     currentHighlighterWidth = linkWidth;
     targetHighlighterWidth = linkWidth;
 
@@ -62,6 +63,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     currentHighlighterX = initialX;
     targetHighlighterX = initialX;
+
+    gsap.set(linkHighlighter, {
+      x: initialX,
+      width: linkWidth,
+    });
   }
 
   //   Menu toggle: open/close logic
@@ -207,10 +213,58 @@ document.addEventListener("DOMContentLoaded", () => {
     targetX = maxMoveLeft + mousePercentage * (maxMoveRight - maxMoveLeft);
   });
 
+  menuLinkContainer.forEach((link) => {
+    link.addEventListener("mouseenter", () => {
+      if (window.innerWidth < 1000) return;
+
+      const linkRect = link.getBoundingClientRect();
+      const menuWrapRectangle = menuLinksWrapper.getBoundingClientRect();
+
+      targetHighlighterX = linkRect.left - menuWrapRectangle.left;
+
+      const linkCopyElement = link.querySelector("a span");
+      targetHighlighterWidth = linkCopyElement
+        ? linkCopyElement.offsetWidth
+        : link.offsetWidth;
+    });
+  });
+
+  menuLinksWrapper.addEventListener("mouseleave", () => {
+    const defaultLinkText = document.querySelector(".menu-link:first-child");
+    const defaultLinkTextSpan = defaultLinkText.querySelector("a span");
+
+    const linkRect = defaultLinkText.getBoundingClientRect();
+    const menuWrapperRect = menuLinksWrapper.getBoundingClientRect();
+
+    targetHighlighterX = linkRect.left - menuWrapperRect.left;
+    targetHighlighterWidth = defaultLinkTextSpan.offsetWidth;
+  });
+
+  // Animation function:  this will animate everything we calculated above
   function animate() {
     if (isMenuOpen) {
+      // Move links container
       currentX += (targetX - currentX) * lerpFactor;
-      gsap.set(menuLinksWrapper, { x: currentX });
+      gsap.set(menuLinksWrapper, {
+        x: currentX,
+        duration: 0.3,
+        ease: "power4.out",
+      });
+
+      // Move highlighter X
+      currentHighlighterX +=
+        (targetHighlighterX - currentHighlighterX) * lerpFactor;
+
+      // Animate highlighter width
+      currentHighlighterWidth +=
+        (targetHighlighterWidth - currentHighlighterWidth) * lerpFactor;
+
+      gsap.set(linkHighlighter, {
+        x: currentHighlighterX,
+        width: currentHighlighterWidth,
+        duration: 0.3,
+        ease: "power4.out",
+      });
     }
 
     requestAnimationFrame(animate);
