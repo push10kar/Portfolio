@@ -387,7 +387,9 @@ section {
   }
 
   .menu-content {
-    top: 25%;
+    position: absolute;
+    top: 12%;
+    transform: translateY(-12%);
   }
 
   .menu-logo,

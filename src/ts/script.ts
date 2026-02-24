@@ -180,4 +180,41 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   navToggle.addEventListener("click", toggleMenu);
+
+  menuOverlay.addEventListener("mousemove", (event) => {
+    if (window.innerWidth < 1000) return;
+
+    const mouseX = event.clientX;
+    const viewPortWidth = window.innerWidth;
+    const menuLinksWrapperWidth = menuLinksWrapper.offsetWidth;
+
+    const maxMoveLeft = 0;
+    const maxMoveRight = viewPortWidth - menuLinksWrapperWidth;
+
+    const sensitivityRange = viewPortWidth * 0.5;
+    const startX = (viewPortWidth - sensitivityRange) / 2;
+    const endX = startX + sensitivityRange;
+
+    let mousePercentage;
+    if (mouseX <= startX) {
+      mousePercentage = 0;
+    } else if (mouseX >= endX) {
+      mousePercentage = 1;
+    } else {
+      mousePercentage = (mouseX - startX) / sensitivityRange;
+    }
+
+    targetX = maxMoveLeft + mousePercentage * (maxMoveRight - maxMoveLeft);
+  });
+
+  function animate() {
+    if (isMenuOpen) {
+      currentX += (targetX - currentX) * lerpFactor;
+      gsap.set(menuLinksWrapper, { x: currentX });
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
 });
