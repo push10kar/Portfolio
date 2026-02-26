@@ -10,8 +10,8 @@
     <!-- Header Navigation -->
     <header>
       <nav class="navbar">
-        <div class="nav-menu-toggle"><p>Menu</p></div>
-        <div class="nav-item"><p>Resume</p></div>
+        <div class="nav-menu-toggle"><p class="clickable">Menu</p></div>
+        <div class="nav-item"><p class="clickable">Resume</p></div>
       </nav>
     </header>
 
@@ -49,32 +49,32 @@
       </div>
 
       <div class="menu-links-wrapper">
-        <div class="menu-link">
-          <a href="#">
-            <span>Index</span>
-            <span>Index</span>
+        <div class="menu-link clickable">
+          <a href="#home">
+            <span>Home</span>
+            <span>Home</span>
           </a>
         </div>
-        <div class="menu-link">
-          <a href="#">
+        <div class="menu-link clickable">
+          <a href="#persona">
             <span>Persona</span>
             <span>Persona</span>
           </a>
         </div>
-        <div class="menu-link">
-          <a href="#">
+        <div class="menu-link clickable">
+          <a href="#biography">
             <span>Biography</span>
             <span>Biography</span>
           </a>
         </div>
-        <div class="menu-link">
-          <a href="#">
+        <div class="menu-link clickable">
+          <a href="#work">
             <span>Work</span>
             <span>Work</span>
           </a>
         </div>
-        <div class="menu-link">
-          <a href="#">
+        <div class="menu-link clickable">
+          <a href="#journal">
             <span>Journal</span>
             <span>Journal</span>
           </a>
@@ -85,11 +85,22 @@
     </div>
 
     <div class="main-container">
-      <section class="hero">
+      <section class="hero" id="home">
         <h1>Shaping Ideas</h1>
       </section>
+      <section id="persona">...</section>
+      <section id="biography">...</section>
+      <section id="work">...</section>
+      <section id="journal">...</section>
     </div>
 
+    <!-- custom scrollbar -->
+    <div class="custom-scrollbar">
+      <div class="scrollbar-thumb"></div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div id="jelly-cursor"></div>
     <script type="module" src="/src/ts/script.ts"></script>
   </body>
 </html>
